@@ -5,6 +5,21 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Game {
+    public static final int SIZE_PLAYGROUND = 12;
+
+    enum TypeOfQuestions {
+        POP("Pop"), SCIENCE("Science"), SPORTS("Sports"), ROCK("Rock");
+        String stringValue;
+
+        TypeOfQuestions(String stringValue) {
+            this.stringValue = stringValue;
+        }
+
+        public String toString() {
+            return stringValue;
+        }
+    }
+
     ArrayList players = new ArrayList();
     int[] places = new int[6];
     int[] purses  = new int[6];
@@ -88,37 +103,48 @@ public class Game {
 
 	private void movePlayer(int roll) {
 		places[currentPlayer] = places[currentPlayer] + roll;
-		if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
+        places[currentPlayer] = places[currentPlayer] % SIZE_PLAYGROUND;
 	}
 
 	private void askQuestion() {
-		if (currentCategory() == "Pop")
-			System.out.println(popQuestions.remove(0));
-		if (currentCategory() == "Science")
-			System.out.println(scienceQuestions.remove(0));
-		if (currentCategory() == "Sports")
-			System.out.println(sportsQuestions.remove(0));
-		if (currentCategory() == "Rock")
-			System.out.println(rockQuestions.remove(0));
+        List<String> questions = null;
+        switch(currentCategory()) {
+            case POP:
+                questions = popQuestions;
+                break;
+            case SCIENCE:
+                questions = scienceQuestions;
+                break;
+            case SPORTS:
+                questions = sportsQuestions;
+                break;
+            case ROCK:
+                questions = rockQuestions;
+        }
+        System.out.println(questions.remove(0));
 	}
 	
 	
-	private String currentCategory() {
+	private TypeOfQuestions currentCategory() {
 		switch(places[currentPlayer]) {
 			case 0:
 			case 4:
 			case 8:
-				return "Pop";
+				return TypeOfQuestions.POP;
 			case 1:
 			case 5:
 			case 9:
-				return "Science";
+				return TypeOfQuestions.SCIENCE;
 			case 2:
 			case 6:
 			case 10:
-				return "Sports";
+				return TypeOfQuestions.SPORTS;
+            case 3:
+            case 7:
+            case 11:
+                return TypeOfQuestions.ROCK;
 			default:
-				return "Rock";
+                throw new IllegalStateException();
 		}
 	}
 
