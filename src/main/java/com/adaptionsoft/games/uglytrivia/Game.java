@@ -149,36 +149,21 @@ public class Game {
 	}
 
 	public boolean currentPlayerGaveCorrectAnswer() {
-		if (inPenaltyBox[currentPlayer]){
-			if (isGettingOutOfPenaltyBox) {
-				System.out.println("Answer was correct!!!!");
-				purses[currentPlayer]++;
-				System.out.println(players.get(currentPlayer) 
-						+ " now has "
-						+ purses[currentPlayer]
-						+ " Gold Coins.");
-				
-				boolean winner = didPlayerWin();
-				nextPlayer();
-				
-				return winner;
-			} else {
-				nextPlayer();
-				return false;
-			}
-		} else {
-			System.out.println("Answer was correct!!!!");
-			purses[currentPlayer]++;
-			System.out.println(players.get(currentPlayer) 
-					+ " now has "
-					+ purses[currentPlayer]
-					+ " Gold Coins.");
-			
-			boolean winner = didPlayerWin();
-			nextPlayer();
-			
-			return winner;
-		}
+        if (inPenaltyBox[currentPlayer] && !isGettingOutOfPenaltyBox) {
+            nextPlayer();
+            return false;
+        }
+        System.out.println("Answer was correct!!!!");
+        purses[currentPlayer]++;
+        System.out.println(players.get(currentPlayer)
+                + " now has "
+                + purses[currentPlayer]
+                + " Gold Coins.");
+
+        boolean winner = didPlayerWin();
+        nextPlayer();
+
+        return winner;
 	}
 	
 	public void currentPlayGaveWrongAnswer(){
