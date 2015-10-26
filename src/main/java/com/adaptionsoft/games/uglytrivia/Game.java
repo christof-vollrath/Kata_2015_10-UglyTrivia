@@ -164,7 +164,7 @@ public class Game {
 				return winner;
 			} else {
 				nextPlayer();
-				return true;
+				return false;
 			}
 		} else {
 			System.out.println("Answer was corrent!!!!");
@@ -196,6 +196,6 @@ public class Game {
 
 
 	private boolean didPlayerWin() {
-		return !(purses[currentPlayer] == 6);
+		return purses[currentPlayer] >= 6;
 	}
 }
